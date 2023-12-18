@@ -139,3 +139,22 @@ class Player:
         # Return a string representation of the player
         return f"Player: {self.name}, Chips: {self.chips}"
 
+class Dealer(Player):
+    def __init__(self):
+        # Initialize the dealer
+        super().__init__(name="Dealer", chips=0)
+        self.show_one_card = True
+
+    def show_hand(self):
+        # Display the dealer's hand. Only show one card if 'show_one_card' is True
+        if self.show_one_card:
+            print("Dealer's Hand: [Hidden],", self.hand.cards[1])
+        else:
+            print("Dealer's Hand:", self.hand)
+
+    def play_hand(self, deck):
+        # Dealer plays their hand, stops after exceeding 17 value
+        self.show_one_card = False
+        while self.hand.value < 17:
+            self.hit(deck)
+
