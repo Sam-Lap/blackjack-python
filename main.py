@@ -158,3 +158,78 @@ class Dealer(Player):
         while self.hand.value < 17:
             self.hit(deck)
 
+def play_blackjack():
+    print("---------------------")
+    print("Welcome to Blackjack!")
+    print("---------------------")
+
+    # Setup deck
+    deck = Deck()
+    deck.shuffle()
+
+    # Setup Player/Dealer
+    player_name = input("Enter your name: ")
+    player = Player(player_name)
+    dealer = Dealer()
+
+    while True:
+        # Player places a bet
+        try:
+            bet_amount = int(input(f"{player.name}, you have {player.chips} chips. How many chips would you like to bet? "))
+            if not player.place_bet(bet_amount):
+                continue
+        except ValueError:
+            print("Please enter a valid number.")
+            continue
+
+        # Initial deal
+        for _ in range(2):
+            player.hit(deck)
+            dealer.hit(deck)
+
+        dealer.show_hand()
+        player.display_hand()
+
+        # Player's turn
+        while not player.is_bust():
+            action = input("Do you want to 'hit' or 'stand'? ").lower()
+            if action == 'hit':
+                player.hit(deck)
+                player.display_hand()
+            elif action == 'stand':
+                break
+
+        # Dealer's turn
+        if not player.is_bust():
+            dealer.play_hand(deck)
+
+        print("\nFinal hands:")
+        dealer.show_hand()
+        player.display_hand()
+
+        # Determine results
+        if player.is_bust():
+            print("You busted! Dealer wins.")
+        elif dealer.is_bust() or player.hand.value > dealer.hand.value:
+            print("You win!")
+            player.win_bet()
+        elif player.hand.value < dealer.hand.value:
+            print("Dealer wins.")
+        else:
+            print("It's a push!")
+            player.push()
+
+        # Ask to play again
+        if player.chips <= 0:
+            print("You've run out of chips!")
+            break
+
+        if input("Play another round? (y/n): ").lower() != 'y':
+            break
+
+        # Reset for next round
+        player.reset_hand()
+        dealer.reset_hand()
+
+
+
