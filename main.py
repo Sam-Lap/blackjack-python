@@ -89,3 +89,53 @@ class Hand:
     def __str__(self):
         # Return a string representation of the hand
         return ', '.join(str(card) for card in self.cards) + f" (Value: {self.value})"
+
+
+class Player:
+    def __init__(self, name, chips=1000):
+        # Initialize a new player
+        self.name = name
+        self.chips = chips
+        self.hand = Hand()
+        self.bet = 0
+
+    def place_bet(self, amount):
+        # Place a bet for the current round.
+        # Returns: True if the bet is successfully placed, False if not enough chips
+        if amount > self.chips:
+            print("Not enough chips to place that bet.")
+            return False
+        else:
+            self.bet = amount
+            self.chips -= amount
+            return True
+
+    def win_bet(self):
+        # Handle the player winning a bet
+        self.chips += 2 * self.bet
+
+    def push(self):
+        # Handle a push (tie) situation where the player gets their bet back
+        self.chips += self.bet
+
+    def hit(self, deck):
+        # Take a new card from the deck and add it to the player's hand
+        self.hand.add_card(deck.deal_card())
+
+    def is_bust(self):
+        # Check if the player's hand is a bust
+        # Returns: True if the player's hand value exceeds 21, False otherwise
+        return self.hand.is_bust()
+
+    def display_hand(self):
+        # Display the player's hand and the current value
+        print(f"{self.name}'s Hand: {self.hand}")
+
+    def reset_hand(self):
+        # Reset the player's hand for a new round
+        self.hand = Hand()
+
+    def __str__(self):
+        # Return a string representation of the player
+        return f"Player: {self.name}, Chips: {self.chips}"
+
