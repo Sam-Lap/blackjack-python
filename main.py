@@ -2,6 +2,7 @@
 Portfolio Project
 BLACKJACK
 '''
+import random
 
 class Card:
     def __init__(self, suit, value):
@@ -26,3 +27,32 @@ class Card:
             return 11
         else:
             return int(self.value)
+
+class Deck:
+    def __init__(self):
+        # Initialize a new deck of 52 cards
+        suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
+        values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
+        self.cards = [Card(suit, value) for suit in suits for value in values]
+
+    def shuffle(self):
+        # Shuffle the deck of cards.
+        random.shuffle(self.cards)
+
+    def deal_card(self):
+        # Deal (remove and return) a card from the deck. 
+        # If the deck is empty, a new deck is created and shuffled.
+        # Returns: The dealt card.
+        if len(self.cards) == 0:
+            self.__init__()
+            self.shuffle()
+        return self.cards.pop()
+
+    def __str__(self):
+        # Return a string representation of the deck.
+        return ', '.join(str(card) for card in self.cards)
+
+    def __len__(self):
+        # Return the number of cards left in the deck.
+        return len(self.cards)
+
