@@ -158,6 +158,7 @@ class Dealer(Player):
         while self.hand.value < 17:
             self.hit(deck)
 
+# Blackjack Game Function
 def play_blackjack():
     print("---------------------")
     print("Welcome to Blackjack!")
