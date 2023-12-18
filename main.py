@@ -232,5 +232,24 @@ def play_blackjack():
         player.reset_hand()
         dealer.reset_hand()
 
+# Game Loop
+def main():
+    print("==============")
+    print("BLACKJACK GAME")
+    print("==============\n")
+
+    # Start main game loop
+    while True:
+        play_blackjack()
+
+        # Check if the player wants to play another round
+        play_again = input("Do you want to play another round? (y/n): ").strip().lower()
+        if play_again != 'y':
+            print("Thank you for playing Blackjack!")
+            break
+
+if __name__ == "__main__":
+    main()
+
 
 
